@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./favicons/favicon-16x16.png">
+    <link rel="stylesheet" href="./css/styles.css">
+    <script defer src="./js/script.js"></script>
+    <title>Pokédex</title>
+</head>
+<body>
+    <div class="container">
+        <div class="shiny">
+            <button id="shiny_btn1" class="shiny_btn button" >shiny</button>
+        </div>
+        
+        <img src="#"id='figura' alt="pokemon" class="pokemon_img">
+        
+        <h1 class="pokemon_data">
+            <span class="pokemon_number"></span> -
+            <span class="pokemon_name"></span>
+        </h1>
+
+        <form class="form">
+            <input 
+                type="search"
+                class="input_search"
+                placeholder="Nome ou Numero"
+                required    
+            />
+        </form>
+
+        <div class="buttons">
+            <button class="button btn-prev">&lt; Anterior</button>
+            <button class="button btn-next">Proximo &gt;</button>
+        </div>
+        <img src="./images/pokedex.png" alt="pokedex" class="pokedex">
+    </div>
+</body>
+</html>
