@@ -6,8 +6,11 @@ const form = document.querySelector('.form');
 const input = document.querySelector('.input_search');
 const btnPrev = document.querySelector('.btn-prev');
 const btnNext = document.querySelector('.btn-next');
+const btnShiny = document.getElementById('toggle-shiny');
+const shinyIndicator = document.getElementById('shiny-indicator');
 
 let searchPokemon = 1;
+let isShiny = false;
 
 const fetchPokemon = async (pokemon) => {
     const APIResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`);
@@ -29,11 +32,27 @@ const renderPokemon = async (pokemon) => {
         pokemonImage.style.display = 'block';
         pokemonName.innerHTML = data.name;
         pokemonNumber.innerHTML = data.id;
+
+        let normalSprite;
+        let shinySprite;
+
         if(data.id < 650){
-            pokemonImage.src = data['sprites']['versions']['generation-v']['black-white']['animated']['front_default'];
+            normalSprite = data['sprites']['versions']['generation-v']['black-white']['animated']['front_default'];
+            shinySprite = data['sprites']['versions']['generation-v']['black-white']['animated']['front_shiny'];
         } else{
-            pokemonImage.src = data['sprites']['front_default']
+            normalSprite = data['sprites']['front_default'];
+            shinySprite = data['sprites']['front_shiny'];
         }
+
+        if(isShiny){
+            pokemonImage.src = shinySprite;
+        }else{
+            pokemonImage.src = normalSprite;
+        }
+        
+
+        btnShiny.onclick = () => toggleShiny(normalSprite, shinySprite);
+
         input.value = '';
         searchPokemon = data.id;
     }else {
@@ -41,6 +60,18 @@ const renderPokemon = async (pokemon) => {
         pokemonName.innerHTML = 'Não encontrado :C';
         pokemonNumber.innerHTML = '';
     }
+}
+
+function toggleShiny(normalSprite, shinySprite){
+
+    if(isShiny){
+        shinyIndicator.style.display = 'none';
+        pokemonImage.src = normalSprite;
+    }else{
+        shinyIndicator.style.display = 'block';
+        pokemonImage.src = shinySprite;
+    }
+    isShiny = !isShiny;
 }
 
 form.addEventListener('submit', (event) =>{
