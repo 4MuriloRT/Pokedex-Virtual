@@ -46,15 +46,20 @@ const renderPokemon = async (pokemon) => {
 
         if(isShiny){
             pokemonImage.src = shinySprite;
-        }else{
+        }else{   
             pokemonImage.src = normalSprite;
         }
         
 
         btnShiny.onclick = () => toggleShiny(normalSprite, shinySprite);
+        
+        const btnInfo = document.querySelector('.btn-info');
+        btnInfo.onclick = () => acao(data); // Passando o objeto data
 
         input.value = '';
         searchPokemon = data.id;
+
+        
     }else {
         pokemonImage.style.display = 'none';
         pokemonName.innerHTML = 'Não encontrado :C';
@@ -78,6 +83,7 @@ form.addEventListener('submit', (event) =>{
     event.preventDefault();
     renderPokemon(input.value.toLowerCase());    
 });
+
 btnPrev.addEventListener('click', (event) =>{
     if(searchPokemon > 1){
         searchPokemon -= 1;
@@ -89,5 +95,29 @@ btnNext.addEventListener('click', (event) =>{
     searchPokemon += 1;
     renderPokemon(searchPokemon);
 });
+
+function acao(data) {
+    let modal = document.querySelector('.modal');
+    let modalContent = document.querySelector('.modal-content');
+
+    modalContent.innerHTML = `
+        <h2>${data.name}</h2>
+        <p>Tipos: ${data.types.map(type => type.type.name).join(', ')}</p>
+        <h3>Status Base</h3>
+        <p class="stat ${data.stats[0].base_stat > 50 ? 'stat-high' : 'stat-low'}">HP: ${data.stats[0].base_stat}</p>
+        <p class="stat ${data.stats[1].base_stat > 50 ? 'stat-high' : 'stat-low'}">Attack: ${data.stats[1].base_stat}</p>
+        <p class="stat ${data.stats[2].base_stat > 50 ? 'stat-high' : 'stat-low'}">Defense: ${data.stats[2].base_stat}</p>
+        <p class="stat ${data.stats[3].base_stat > 50 ? 'stat-high' : 'stat-low'}">Sp. Atk: ${data.stats[3].base_stat}</p>
+        <p class="stat ${data.stats[4].base_stat > 50 ? 'stat-high' : 'stat-low'}">Sp. Def: ${data.stats[4].base_stat}</p>
+        <p class="stat ${data.stats[5].base_stat > 50 ? 'stat-high' : 'stat-low'}">Speed: ${data.stats[5].base_stat}</p>
+    `;
+
+    modal.style.display = 'block';
+}
+
+function fechar() {
+    let modal = document.querySelector('.modal');
+    modal.style.display = 'none';
+}
 
 renderPokemon(searchPokemon);
